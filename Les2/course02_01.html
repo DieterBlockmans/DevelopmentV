@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: SVG bar chart with value labels (centered)</title>
+		<script type="text/javascript" src="../d3.js"></script>
+		<style type="text/css">
+			/* No style rules here yet */	
+			#svg {
+				background: #f00;;
+                        }
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+
+			//Width and height
+			var w = 500;
+			var h = 200;
+			var barPadding = 5;
+			
+                        //versie 1: we gebruiken geen .csv maar laden de data standaard
+                        dataset = [25, 20, 18, 14, 13, 12, 12, 12, 9, 8, 5, 2];
+
+                        //Add an SVG element to the body
+                        //Set width and height
+                        var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height",h)
+						.style("background-color", "#f00");
+						
+						
+
+                        //Add a "rect"-element for every datapoint in dataset
+                        //Tip: https://www.d3indepth.com/enterexit/
+                        //Make them the right size
+                        //Position them
+                        svg.selectAll("rect")
+						.data(dataset)
+						.enter()
+						.append("rect")
+						.attr("height", function(d, i){
+							return d*4;
+						})
+						.attr("width", function(d, i){
+							return (w / dataset.length) - barPadding;
+						})
+						.attr("x", function(d, i){
+							return i*(w/dataset.length);
+						})
+						.attr("y", function(d, i){
+							return 200 - (d*4);
+						});
+
+                        //Add every value as text
+                        //Position the text
+                        //Style the text by adding a class and using css
+						svg.selectAll("text")
+						.data(dataset)
+						.enter()
+						.append("text")
+						.attr("text-anchor", "middle")
+						.attr("x" , function(d, i){
+							return i* (w/dataset.length) + barPadding*3;
+						})
+						.attr("y" , function(d, i){
+							return 200 - (d*5);
+						})
+						.text(function(d){
+							return d;
+						})
+						.style("fill", "white");
+						
+			
+		</script>
+	</body>
+</html>
